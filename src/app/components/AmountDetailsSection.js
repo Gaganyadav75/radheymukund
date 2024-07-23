@@ -19,7 +19,6 @@ function AmountDetailsSection({Info}) {
     {
         hsnwisedetails.map(ele=>{
             let hsndetail = ele[1]
-            console.log(hsndetail)
             return  <TaxableInfoRowLine hsn={hsndetail.hsn} igst={hsndetail.igst} cgst={hsndetail.cgst} sgst={hsndetail.sgst} taxable={hsndetail.taxable} qty={hsndetail.qty} totalTax={hsndetail.totalTax}/>
         })
     }

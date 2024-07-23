@@ -80,10 +80,14 @@ export function InvoiceDetailInputs({setStatus,setFormData}) {
         getTerms:function(){
           if (!this.terms) {
             return ""
+          }else if (Number(this.terms)==NaN) {
+            return this.terms
+           
           }else if (this.pcd) {
-            return this.terms + " DAYS "+ "(PCD)"
-          }else{
-            return this.terms + " DAYS"
+             return this.terms + " DAYS "+ "(PCD)"
+          }
+          else {
+            return Numberthis.terms + " DAYS"
           }
         }
       }
@@ -116,9 +120,9 @@ export function InvoiceDetailInputs({setStatus,setFormData}) {
           <NormalInput name={"invoiceno"} placeholder={"INVOICE NO."} required={true} onChange={onChangeHandler} value={invoiceDetailState.invoiceno}/>
           <NormalInput name={"grrrno"} placeholder={"GR/RR NO"} required={false}  onChange={onChangeHandler} value={invoiceDetailState.grrrno}/>
           <DateInput name={"invoicedate"} placeholder={"INVOICE DATE"} required={true}  onChange={onChangeHandler} value={invoiceDetailState.invoicedate}/>
-          <SelectInput name={"transport"} disabled={0}  options={["","IMIDIATE",""]}  onChange={onChangeHandler} value={invoiceDetailState.transport}/>
+          <NormalInput name={"transport"} disabled={0}  onChange={onChangeHandler} value={invoiceDetailState.transport}/>
           <div className="flex justify-between">
-          <NormalInput type={"number"} name={"terms"} placeholder={"TERMS"} required={false}  onChange={onChangeHandler} value={invoiceDetailState.terms}/>
+          <NormalInput type={"text"} name={"terms"} placeholder={"TERMS"} required={false}  onChange={onChangeHandler} value={invoiceDetailState.terms}/>
           <CheckBox label={"PCD"} onChange={()=>{setPcd(true)}} labelAlign='right'/>
           </div>
 

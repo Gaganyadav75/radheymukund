@@ -19,16 +19,18 @@ export function InvoiceDetails({name,value}) {
 
 export function BillToShipTo({border,type,partyDetails}) {
 
-  const getStateCode = () =>{
-    if (partyDetails?.gstin) {
-      let stcode = partyDetails.gstin.slice(0,2)
-      let stc = gstinStateCodes[stcode]
-      return stc?.state?stc?.state +" ("+ stcode+")":"" 
-    }else{
-      return partyDetails?.state
-    }
+  // const getStateCode = () =>{
+  //   if (partyDetails?.gstin) {
+  //     let stcode = partyDetails.gstin.slice(0,2)
+  //     let stc = gstinStateCodes[stcode]
+  //     return stc?.state?stc?.state +" ("+ stcode+")":"" 
+  //   }else{
+  //     return partyDetails?.state
+  //   }
     
-  }
+  // }
+
+  console.log(partyDetails)
 
 
 
@@ -36,7 +38,7 @@ export function BillToShipTo({border,type,partyDetails}) {
     <div className={`${border} border-black p-[2px] flex flex-col justify-between`}>
 
       <div className="">
-        <h3 className="underline italic">{type}</h3>
+        <h3 className="underline italic mb-2">{type}</h3>
         <div className="mt-1 mb-2">
           <p>{partyDetails?.name && partyDetails?.name.toUpperCase()}</p>
           <p className="text-wrap text-[12px]">{partyDetails?.address && partyDetails?.address.toUpperCase()}</p>
@@ -45,7 +47,7 @@ export function BillToShipTo({border,type,partyDetails}) {
         <div className="">
           <InvoiceDetails name={"PAN"} value={partyDetails?.pan}/>
           <InvoiceDetails name={"GSTIN"} value={partyDetails?.gstin?partyDetails?.gstin:""}/>
-          <InvoiceDetails name={"STATE"} value={partyDetails?.getState()}/>
+          <InvoiceDetails name={"STATE"} value={partyDetails?.getState}/>
           <InvoiceDetails name={"EMAIL"} value={partyDetails?.email?partyDetails.email:""}/>
         </div>
     </div>

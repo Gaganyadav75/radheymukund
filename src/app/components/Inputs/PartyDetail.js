@@ -19,6 +19,19 @@ export function PartyDetailsInputs({setStatus,setFormData}) {
             pan:"",
             gstin:"",
             email:"",
+            getState:function(){
+                let stc = ""
+                if (this?.gstin.length==15) {
+                    stc =this?.gstin.slice(0,2) 
+                }else if (this.state.length==2) {
+                    stc = this.state.toString()
+                }else{
+                    return ""
+                }
+                let obj = gstinStateCodes[stc.toString()]
+                // console.log(obj)
+                return obj.state?obj?.state+" ("+stc+")":""
+            }
         },
         shipTo:{
             name:"",
@@ -26,6 +39,19 @@ export function PartyDetailsInputs({setStatus,setFormData}) {
             pan:"",
             gstin:"",
             email:"",
+            getState:function(){
+                let stc = ""
+                if (this?.gstin.length==15) {
+                    stc =this?.gstin.slice(0,2) 
+                }else if (this.state.length==2) {
+                    stc = this.state.toString()
+                }else{
+                    return ""
+                }
+                let obj = gstinStateCodes[this?.gstin.slice(0,2)]
+                // console.log(obj)
+                return obj.state?obj?.state+" ("+stc+")":""
+            }
         }
     })
 
@@ -119,39 +145,28 @@ export function PartyDetailsInputs({setStatus,setFormData}) {
         setFormData((data) =>{
           if (data) {   
             let st = partyDetailState
+            let statecodebillto = st.billTo?.gstin.length==15?gstinStateCodes[st.billTo?.gstin.slice(0,2)].state+" ("+st.billTo?.gstin.slice(0,2)+")":st?.billTo?.state.length==2?gstinStateCodes[st.billTo?.state].state+" ("+st.billTo?.state+")":""
+            
             let billTo = {
                 ...st.billTo,
                 pan: st.billTo?.pan.length==10 ?  st.billTo?.pan : st?.billTo?.gstin.length==15 ? st.billTo?.gstin.slice(2,12) : "",
                 state:st.billTo?.gstin.length==15?"":st?.billTo?.state,
-                getState:function(){
-                    let stc = ""
-                    if (this?.gstin.length==15) {
-                        stc =his?.gstin.slice(0,2) 
-                    }else{
-                        stc = this.state.toString()
-                    }
-                    let obj = gstinStateCodes[stc.toString()]
-                    return obj?obj?.state+" ("+stc+")":""
-                }
+                getState:statecodebillto
+                
             }
+
+            let fun = ()=>{
+                let statecodeshipto = st.shipTo?.gstin.length==15?gstinStateCodes[st.shipTo?.gstin.slice(0,2)].state+" ("+st.shipTo?.gstin.slice(0,2)+")":st?.shipTo?.state.length==2?gstinStateCodes[st.shipTo?.state].state+" ("+st.shipTo?.state+")":""
+               
+              return{
+              ...st.shipTo,
+             pan: st.shipTo?.pan ?  st.shipTo?.pan : st?.shipTo?.gstin ? st.shipTo?.gstin.slice(2,12) : "",
+             state:st.shipTo?.gstin.length==15?"":st?.shipTo?.state,
+             getState:statecodeshipto
+          }}
             let partyDetails = {
                 billTo,
-                shipTo:!checked?()=>{
-                    return{
-                    ...st.shipTo,
-                   pan: st.shipTo?.pan ?  st.shipTo?.pan : st?.shipTo?.gstin ? st.shipTo?.gstin.slice(2,12) : "",
-                   state:st.shipTo?.gstin.length==15?"":st?.shipTo?.state,
-                    getState:function(){
-                    let stc = ""
-                    if (this?.gstin.length==15) {
-                        stc =his?.gstin.slice(0,2) 
-                    }else{
-                        stc = this.state.toString()
-                    }
-                    let obj = gstinStateCodes[stc.toString()]
-                    return obj?obj?.state+" ("+stc+")":""
-                }
-                }}:billTo
+                shipTo:!checked?fun():billTo
             }
             return {...data,partyDetails}
           }

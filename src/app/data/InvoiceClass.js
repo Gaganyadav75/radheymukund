@@ -20,7 +20,7 @@ export class InfoClass {
     };
 
     getPartyCode(){
-      return this.partyDetails?.billTo.state?this.partyDetails?.billTo.state:this.partyDetails?.billTo?.gstin.slice(0,2) || ""
+      return this.partyDetails?.billTo?.gstin.length==15?this.partyDetails?.billTo?.gstin.slice(0,2):this.partyDetails?.billTo.state.length==2?this.partyDetails?.billTo.state:"07"
     }
 
     getGstValues(){
@@ -39,7 +39,7 @@ export class InfoClass {
 
         gstvalue.totalTax += val?val:0
 
-        if ((partygstcode==statecode)&&!this.partyDetails?.billTo?.gstin) {
+        if (partygstcode==statecode ) {
           gstvalue.cgst += +((val/2).toFixed(2))
           gstvalue.sgst += +((val/2).toFixed(2))
         }else{
